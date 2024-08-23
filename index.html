@@ -62,6 +62,27 @@
     </b>
     <br><br><br>
   </div>
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        fetch('https://api.github.com/user', {
+                        headers: { Authorization: `Bearer ${accessToken}` }
+                    });
+                })
+                .then(response => response.json())
+                .then(user => {
+                    const userInfoDiv = document.getElementById('user-info');
+                    userInfoDiv.innerHTML = `
+                        <p>Name: ${user.name}</p>
+                        <p>Username: ${user.login}</p>
+                        <img src="${user.avatar_url}" alt="avatar" width="100">
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            document.getElementById('user-info').innerText = 'No code found in the URL';
+        }
+    </script>
   <div class="author">
     <footer>
       <center>
