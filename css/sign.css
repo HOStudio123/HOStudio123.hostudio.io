@@ -6,9 +6,8 @@
 
 }
 
-/* 垂直居中 */
 
-stection{
+stection {
 
   display: flex;
 
@@ -21,14 +20,10 @@ stection{
   position: relative;
 
   overflow: hidden;
-
-  /* 渐变效果 */
-
+  
   background: linear-gradient(to bottom,#fif4f9,#dffiff);
 
 }
-
-/* 背景颜色 */
 
 stection .color{
 
@@ -202,7 +197,6 @@ stection .color:nth-child(1){
 
 }
 
-/* 登录框样式 */
 
 .container{
 
@@ -254,7 +248,7 @@ stection .color:nth-child(1){
 
   font-weight: 600;
 
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 
   margin-bottom: 30px;
 
@@ -262,7 +256,6 @@ stection .color:nth-child(1){
 
 }
 
-/* 登录下样式 */
 
 .from h2::before{
 
@@ -334,7 +327,6 @@ stection .color:nth-child(1){
 
 }
 
-/* 登录按钮样式 */
 
 .from .inputbox input[type="submit"]{
 
