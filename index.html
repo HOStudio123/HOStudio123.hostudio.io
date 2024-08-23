@@ -1,79 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
+  <meta charset="utf-8">
   <title>HOStudio</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/time.css">
   <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-  <body background="src/background.png" style="background-repeat:no-repeat; background-size:100% 100%; background-attachment: fixed;">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid mx-3">
-        <a class="navbar-brand" href="/index.html">HOStudio Official Website</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon">
-          </span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          </ul>
-          <ul class="navbar-nav me-0 my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            <li class="nav-item">
-              <a class="nav-link active" href="/index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/src/index.html">Files</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/Bookmarks/index.html">Bookmarks</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/Pages/index.html">Pages</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login.html">Login</a>
-            </li>
-          </ul>
-        </div>
+  <style>
+    body {
+      background: url('src/background.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .card {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .card button {
+      background-color: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid mx-3">
+      <a class="navbar-brand" href="/index.html">HOStudio Official Website</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <ul class="navbar-nav me-0 my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item"><a class="nav-link active" href="/index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/src/index.html">Files</a></li>
+          <li class="nav-item"><a class="nav-link" href="/Bookmarks/index.html">Bookmarks</a></li>
+          <li class="nav-item"><a class="nav-link" href="/Pages/index.html">Pages</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login.html">Login</a></li>
+        </ul>
       </div>
-    </nav>
-    <div class="time">
-      <script type="text/javascript" src="/js/time.js"></script>
-      <font size='4'>
-        <strong>
-          <br>
-          <div id='time'></div>
-        </strong>
-      </font>
     </div>
-    &nbsp;&nbsp;
-    <audio src="src/The_Internationale_Chinese.mp3" width="100%" controls="" autoplay="" loop="">
-    </audio>
-    <br>
-    &nbsp;&nbsp;
-    <b>The Internationale (Chinese Version)</b>
-    <br>
-    &nbsp;&nbsp;
-    <audio src="src/The_Internationale_Russian.mp3" width="100%" controls="" autoplay="" loop="">
-    </audio>
-    <br>
-    &nbsp;&nbsp;
-    <b>
-      The Internationale (Russian Version)
-    </b>
-    <br><br><br>
+  </nav>
+
+  <div class="container">
+    <div class="card" id="container1">
+      <span style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px;">The Internationale (Chinese Version)</span>
+      <button id="button1" onclick="togglePlay('audio1', 'button1')">Play</button>
+      <audio id="audio1" src="src/The_Internationale_Chinese.mp3"></audio>
+    </div>
+
+    <div class="card" id="container2">
+      <span style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px;">The Internationale (Russian Version)</span>
+      <button id="button2" onclick="togglePlay('audio2', 'button2')">Play</button>
+      <audio id="audio2" src="src/The_Internationale_Russian.mp3"></audio>
+    </div>
   </div>
-    <script>
-        const url = new URLSearchParams(window.location.search);
-        const code = url.get('code');
-        <p>Name: ${code}</p>
-    </script>
-  <div class="author">
-    <footer>
-      <center>
-        Made by HOStudio Development Team
-      </center>
-    </footer>
+
+  <script>
+    function togglePlay(audioId, buttonId) {
+      var audio = document.getElementById(audioId);
+      var button = document.getElementById(buttonId);
+      if (audio.paused) {
+        audio.play();
+        button.textContent = "Stop";
+      } else {
+        audio.pause();
+        button.textContent = "Play";
+      }
+    }
+    
+    document.getElementById('audio1').addEventListener('ended', function() {
+      document.getElementById('button1').textContent = "Play";
+    });
+    
+    document.getElementById('audio2').addEventListener('ended', function() {
+      document.getElementById('button2').textContent = "Play";
+    });
+  </script>
+
+  <footer>
+    Made by HOStudio Development Team
+  </footer>
+
+  <div class="time">
+    <script type="text/javascript" src="/js/time.js"></script>
+    <font size="3">
+      <counter><div id="time"></div></counter>
+    </font>
   </div>
 </body>
-</head>
 </html>
