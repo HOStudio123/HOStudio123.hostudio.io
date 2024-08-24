@@ -25,11 +25,9 @@ document.body.addEventListener('click', function(e) {
 
     getComputedStyle(valueText).opacity;
 
-    // 启动动画
     valueText.style.opacity = '1';
     valueText.style.transform = 'translate(-50%, -50%) scale(1)';
 
-    // 动画结束后移除文字
     setTimeout(() => {
         valueText.style.opacity = '0';
         valueText.style.transform = 'translate(-50%, -50%) scale(1.5)';
