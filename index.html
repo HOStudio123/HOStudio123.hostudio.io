@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>HOStudio</title>
@@ -21,6 +21,7 @@
       padding: 20px;
       margin-bottom: 20px;
       text-align: center;
+      position: relative;
     }
     .card button {
       background-color: rgba(255, 255, 255, 0.3);
@@ -29,6 +30,16 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+    }
+    .progress-bar {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+    .time-display {
+      font-size: 14px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
     }
     footer {
       text-align: center;
@@ -58,21 +69,41 @@
   <div class="container">
     <div class="card" id="container1">
       <span style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px;">The Internationale (Chinese Version)</span>
+      <div class="time-display">
+        <span id="currentTime1">00:00</span>
+        <span id="duration1">00:00</span>
+      </div>
+      <input type="range" id="seekbar1" class="progress-bar" value="0" min="0" max="100" step="1">
       <button id="button1" onclick="togglePlay('audio1', 'button1')">Play</button>
       <audio id="audio1" src="src/The_Internationale_Chinese.mp3"></audio>
     </div>
 
     <div class="card" id="container2">
       <span style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px;">The Internationale (Russian Version)</span>
+      <div class="time-display">
+        <span id="currentTime2">00:00</span>
+        <span id="duration2">00:00</span>
+      </div>
+      <input type="range" id="seekbar2" class="progress-bar" value="0" min="0" max="100" step="1">
       <button id="button2" onclick="togglePlay('audio2', 'button2')">Play</button>
       <audio id="audio2" src="src/The_Internationale_Russian.mp3"></audio>
     </div>
   </div>
 
   <script>
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = Math.floor(seconds % 60);
+      return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
     function togglePlay(audioId, buttonId) {
       var audio = document.getElementById(audioId);
       var button = document.getElementById(buttonId);
+      var seekbar = document.getElementById('seekbar' + audioId.charAt(audioId.length - 1));
+      var currentTimeDisplay = document.getElementById('currentTime' + audioId.charAt(audioId.length - 1));
+      var durationDisplay = document.getElementById('duration' + audioId.charAt(audioId.length - 1));
+      
       if (audio.paused) {
         audio.play();
         button.textContent = "Stop";
@@ -80,6 +111,20 @@
         audio.pause();
         button.textContent = "Play";
       }
+
+      audio.ontimeupdate = function() {
+        seekbar.value = (audio.currentTime / audio.duration) * 100;
+        currentTimeDisplay.textContent = formatTime(audio.currentTime);
+        durationDisplay.textContent = formatTime(audio.duration);
+      };
+      
+      seekbar.oninput = function() {
+        audio.currentTime = (seekbar.value / 100) * audio.duration;
+      };
+
+      audio.onloadedmetadata = function() {
+        durationDisplay.textContent = formatTime(audio.duration);
+      };
     }
     
     document.getElementById('audio1').addEventListener('ended', function() {
