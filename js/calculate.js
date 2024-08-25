@@ -4,7 +4,8 @@ function clearDisplay() {
 
 function appendToDisplay(value) {
     const display = document.getElementById('display');
-    if (display.innerText === '0') {
+    const symbol = ['+', '-', '*', '/', '.', '%'];
+    if (display.innerText == '0' && !(symbol.includes(value))) {
         display.innerText = value;
     } else {
         display.innerText += value;
@@ -16,7 +17,7 @@ function deleteLast() {
     if (display.innerText.length > 1) {
         display.innerText = display.innerText.slice(0, -1);
     } else {
-        display.innerText = '0';
+        display.innerText = ' ';
     }
 }
 
