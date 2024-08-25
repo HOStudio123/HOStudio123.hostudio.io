@@ -24,7 +24,12 @@ function deleteLast() {
 function calculateResult() {
     const display = document.getElementById('display');
     try {
+      if (eval(display.innerText) == 'function Error() { [native code] }') {
+        display.innerText = 'Error';
+      }
+      else {
         display.innerText = eval(display.innerText);
+      }
     } catch {
         display.innerText = 'Error';
     }
