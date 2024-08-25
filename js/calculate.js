@@ -17,7 +17,7 @@ function deleteLast() {
     if (display.innerText.length > 1) {
         display.innerText = display.innerText.slice(0, -1);
     } else {
-        display.innerText = ' ';
+        display.innerText = '0';
     }
 }
 
