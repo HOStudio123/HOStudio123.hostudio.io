@@ -47,14 +47,13 @@ var Snake = (function () {
       velocity.y = 0;
       player.x = INITIAL_PLAYER.x;
       player.y = INITIAL_PLAYER.y;
-      // this.RandomFruit();
+      
       reward = -1;
 
       lastAction = ActionEnum.none;
 
       trail = [];
       trail.push({ x: player.x, y: player.y });
-      // for(var i=0; i<tail; i++) trail.push({ x: player.x, y: player.y });
     },
 
     action: {
@@ -150,8 +149,8 @@ var Snake = (function () {
       if(!stopped) {
         ctx.fillStyle = 'rgba(200,200,200,0.2)';
         ctx.font = "small-caps 14px Helvetica";
-        ctx.fillText("(esc) reset", 24, 356);
-        ctx.fillText("(space) pause", 24, 374);
+        ctx.fillText("esc: reset", 24, 356);
+        ctx.fillText("space: pause", 24, 374);
       }
 
       ctx.fillStyle = 'green';
@@ -188,15 +187,15 @@ var Snake = (function () {
       ctx.fillRect(fruit.x * gridSize+1, fruit.y * gridSize+1, gridSize-2, gridSize-2);
 
       if(stopped) {
-        ctx.fillStyle = 'rgba(250,250,250,0.8)';
-        ctx.font = "small-caps bold 14px Helvetica";
-        ctx.fillText("press ARROW KEYS to START...", 24, 374);
+        ctx.fillStyle = 'rgba(250,250,250,1)';
+        ctx.font = "small-caps bold 16px Helvetica";
+        ctx.fillText("press arrow keys to start", 24, 374);
       }
 
       ctx.fillStyle = 'white';
-      ctx.font = "bold small-caps 16px Helvetica";
-      ctx.fillText("points: " + points, 288, 40);
-      ctx.fillText("top: " + pointsMax, 292, 60);
+      ctx.font = "small-caps bold 16px Helvetica";
+      ctx.fillText("pts " + points, 320, 40);
+      ctx.fillText("top " + pointsMax, 320, 60);
 
       return reward;
     }
