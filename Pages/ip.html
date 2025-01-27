@@ -133,7 +133,7 @@
 
             fetch('http://ip-api.com/json')
                 .then(response => {
-                    if (!response.ok) throw new Error(Null);
+                    if (!response.ok) throw new Error('No response');
                     return response.json();
                 })
                 .then(data => {
