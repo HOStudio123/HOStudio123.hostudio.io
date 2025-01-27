@@ -102,20 +102,20 @@
 <body>
     <div class="card">
         <h1>Network IP Address</h1>
-        <p id="ipAddress">Loading…</p>
+        <p id="ipAddress">Waiting</p>
     </div>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const ipElement = document.getElementById('ipAddress');
             ipElement.classList.add('loading');
-            fetch('https://api.ipify.org?format=json')
+            fetch('http://ip-api.com/json')
                 .then(response => {
                     if (!response.ok) throw new Error(Null);
                     return response.json();
                 })
                 .then(data => {
-                    ipElement.textContent = data.ip;
+                    ipElement.textContent = data.query;
                     ipElement.classList.remove('loading');
                     ipElement.style.animation = 'fadeIn 0.5s ease';
                 })
