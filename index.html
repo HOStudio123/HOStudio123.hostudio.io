@@ -91,49 +91,73 @@
   </div>
 
   <script>
+    // 初始化音频元数据
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('audio').forEach(audio => {
+        audio.load()
+        audio.onloadedmetadata = function() {
+          const durationId = this.id.replace('audio', 'duration')
+          document.getElementById(durationId).textContent = formatTime(this.duration)
+        }
+        audio.onerror = () => {
+          console.error('音频加载失败:', audio.src)
+          document.getElementById(`duration${audio.id.slice(-1)}`).textContent = "00:00"
+        }
+      })
+    })
+
     function formatTime(seconds) {
-      const min = Math.floor(seconds / 60);
-      const sec = Math.floor(seconds % 60);
-      return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+      if (isNaN(seconds)) return "00:00"
+      const min = Math.floor(seconds / 60)
+      const sec = Math.floor(seconds % 60)
+      return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`
     }
 
     function togglePlay(audioId, buttonId) {
-      var audio = document.getElementById(audioId);
-      var button = document.getElementById(buttonId);
-      var seekbar = document.getElementById('seekbar' + audioId.charAt(audioId.length - 1));
-      var currentTimeDisplay = document.getElementById('currentTime' + audioId.charAt(audioId.length - 1));
-      var durationDisplay = document.getElementById('duration' + audioId.charAt(audioId.length - 1));
+      const audio = document.getElementById(audioId)
+      const button = document.getElementById(buttonId)
       
+      // 暂停其他播放器
+      document.querySelectorAll('audio').forEach(otherAudio => {
+        if (otherAudio.id !== audioId && !otherAudio.paused) {
+          otherAudio.pause()
+          const otherButton = document.getElementById(`button${otherAudio.id.slice(-1)}`)
+          otherButton.textContent = "Play"
+        }
+      })
+
       if (audio.paused) {
-        audio.play();
-        button.textContent = "Stop";
+        audio.play()
+        button.textContent = "Stop"
       } else {
-        audio.pause();
-        button.textContent = "Play";
+        audio.pause()
+        button.textContent = "Play"
       }
 
-      audio.ontimeupdate = function() {
-        seekbar.value = (audio.currentTime / audio.duration) * 100;
-        currentTimeDisplay.textContent = formatTime(audio.currentTime);
-        durationDisplay.textContent = formatTime(audio.duration);
-      };
-      
-      seekbar.oninput = function() {
-        audio.currentTime = (seekbar.value / 100) * audio.duration;
-      };
+      // 更新时间显示
+      audio.ontimeupdate = () => {
+        const seekbar = document.getElementById(`seekbar${audioId.slice(-1)}`)
+        const currentTimeDisplay = document.getElementById(`currentTime${audioId.slice(-1)}`)
+        seekbar.value = (audio.currentTime / audio.duration) * 100 || 0
+        currentTimeDisplay.textContent = formatTime(audio.currentTime)
+      }
 
-      audio.onloadedmetadata = function() {
-        durationDisplay.textContent = formatTime(audio.duration);
-      };
+      // 进度条控制
+      document.querySelectorAll('.progress-bar').forEach(seekbar => {
+        seekbar.oninput = function() {
+          const audio = document.getElementById(`audio${this.id.slice(-1)}`)
+          audio.currentTime = (this.value / 100) * audio.duration
+        }
+      })
     }
-    
+
+    // 播放结束事件
     document.getElementById('audio1').addEventListener('ended', function() {
-      document.getElementById('button1').textContent = "Play";
-    });
-    
+      document.getElementById('button1').textContent = "Play"
+    })
     document.getElementById('audio2').addEventListener('ended', function() {
-      document.getElementById('button2').textContent = "Play";
-    });
+      document.getElementById('button2').textContent = "Play"
+    })
   </script>
   
   <footer>
