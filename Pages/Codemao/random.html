@@ -99,7 +99,7 @@
 <body>
   <div class="search-box">
     <input type="number" id="numInput" placeholder="请输入数量 (5～200)">
-    <button onclick="loadWorks()">预览作品</button>
+    <button onclick="loadWorks()">随机预览</button>
   </div>
   <div id="resultContainer"></div>
 
@@ -118,7 +118,7 @@
         .then(response => response.json())
         .then(data => {
           if (!data.items || data.items.length === 0) {
-            showError('没有找到任何最新作品！');
+            showError('没有找到任何作品！');
             return;
           }
           data.items.forEach(item => {
@@ -130,15 +130,13 @@
             const imgContainer = document.createElement('div');
             const img = document.createElement('img');
             img.className = 'work-image';
-            img.src = item.preview_url || 'https://via.placeholder.com/200x150';
-            img.onerror = () => img.src = 'https://via.placeholder.com/200x150';
+            img.src = item.preview_url
             imgContainer.appendChild(img);
 
             const uimgContainer = document.createElement('div');
             const uimg = document.createElement('img');
             uimg.className = 'avatar';
-            uimg.src = item.avatar_url || 'https://via.placeholder.com/200x150';
-            uimg.onerror = () => uimg.src = 'https://via.placeholder.com/200x150';
+            uimg.src = item.avatar_url
             uimgContainer.appendChild(uimg);
 
             const infoDiv = document.createElement('div');
@@ -171,7 +169,7 @@
           });
         })
         .catch(error => {
-          showError(`数据加载失败: ${error.message}`);
+          showError(`数据加载失败，请检查网络`);
         });
     }
 
