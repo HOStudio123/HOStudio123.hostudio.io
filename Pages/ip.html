@@ -51,9 +51,24 @@
             border-radius: 10px;
             margin: 20px 0;
             font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
             position: relative;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+        .info-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .info-item {
+            text-align: ;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            color: #2c3e50;
+        }
+        .info-item strong {
+            color: #3498db;
         }
         .loading {
             position: relative;
@@ -94,7 +109,11 @@
             }
 
             #ipAddress {
-                font-size: 1.5em;
+                font-size: 1.2em;
+            }
+
+            .info-item {
+                font-size: 1em; /* 移动端适当减小字体大小 */
             }
         }
     </style>
@@ -103,12 +122,15 @@
     <div class="card">
         <h1>Network IP Address</h1>
         <p id="ipAddress">Waiting</p>
+        <div id="infoContainer" class="info-container"></div>
     </div>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const ipElement = document.getElementById('ipAddress');
+            const infoContainer = document.getElementById('infoContainer');
             ipElement.classList.add('loading');
+
             fetch('http://ip-api.com/json')
                 .then(response => {
                     if (!response.ok) throw new Error(Null);
@@ -118,9 +140,28 @@
                     ipElement.textContent = data.query;
                     ipElement.classList.remove('loading');
                     ipElement.style.animation = 'fadeIn 0.5s ease';
+
+                    const infoItems = [
+                        { label: '国家', value: data.country },
+                        { label: '区域', value: data.regionName },
+                        { label: '城市', value: data.city },
+                        { label: '邮编', value: data.zip },
+                        { label: '服务', value: data.isp },
+                        { label: '组织', value: data.org },
+                        { label: '时区', value: data.timezone },
+                        { label: '纬度', value: data.lat },
+                        { label: '经度', value: data.lon },
+                    ];
+
+                    infoItems.forEach(item => {
+                        const infoItem = document.createElement('div');
+                        infoItem.className = 'info-item';
+                        infoItem.innerHTML = `<strong>${item.label} </strong>${item.value}`;
+                        infoContainer.appendChild(infoItem);
+                    });
                 })
                 .catch(error => {
-                    ipElement.textContent = 'FAILED TO GET';
+                    ipElement.textContent = 'FAILED TO FETCH';
                     ipElement.classList.remove('loading');
                     ipElement.classList.add('error');
                 });
