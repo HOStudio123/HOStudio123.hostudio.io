@@ -130,8 +130,6 @@
         audio.pause()
         button.textContent = "Play"
       }
-
-      // 更新时间显示
       audio.ontimeupdate = () => {
         const seekbar = document.getElementById(`seekbar${audioId.slice(-1)}`)
         const currentTimeDisplay = document.getElementById(`currentTime${audioId.slice(-1)}`)
