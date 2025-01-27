@@ -91,7 +91,6 @@
   </div>
 
   <script>
-    // 初始化音频元数据
     window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('audio').forEach(audio => {
         audio.load()
@@ -100,7 +99,6 @@
           document.getElementById(durationId).textContent = formatTime(this.duration)
         }
         audio.onerror = () => {
-          console.error('音频加载失败:', audio.src)
           document.getElementById(`duration${audio.id.slice(-1)}`).textContent = "00:00"
         }
       })
@@ -117,7 +115,6 @@
       const audio = document.getElementById(audioId)
       const button = document.getElementById(buttonId)
       
-      // 暂停其他播放器
       document.querySelectorAll('audio').forEach(otherAudio => {
         if (otherAudio.id !== audioId && !otherAudio.paused) {
           otherAudio.pause()
@@ -141,8 +138,6 @@
         seekbar.value = (audio.currentTime / audio.duration) * 100 || 0
         currentTimeDisplay.textContent = formatTime(audio.currentTime)
       }
-
-      // 进度条控制
       document.querySelectorAll('.progress-bar').forEach(seekbar => {
         seekbar.oninput = function() {
           const audio = document.getElementById(`audio${this.id.slice(-1)}`)
@@ -150,8 +145,6 @@
         }
       })
     }
-
-    // 播放结束事件
     document.getElementById('audio1').addEventListener('ended', function() {
       document.getElementById('button1').textContent = "Play"
     })
