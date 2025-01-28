@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOStudio</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                autoload: {
+                    color: [],
+                    colorv2: ['color']
+                },
+                packages: {'[+]': ['ams', 'boldsymbol']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            gap: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .editor-box, .preview-box {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        #latex-input {
+            width: 90%;
+            height: 400px;
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+
+        #preview {
+            min-height: 400px;
+            padding: 10px;
+            border: 2px solid #2ecc71;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="editor-box">
+            <h2>LaTeX</h2>
+            <textarea id="latex-input" placeholder="Enter the LaTeX formula here... "></textarea>
+        </div>
+        <div class="preview-box">
+            <h2>Preview</h2>
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('latex-input');
+        const preview = document.getElementById('preview');
+
+        function updatePreview() {
+            preview.innerHTML = input.value;
+            MathJax.typesetPromise([preview]).catch(err => {
+                preview.innerHTML += `<div style="color: red">${err.message}</div>`;
+            });
+        }
+
+        input.addEventListener('input', updatePreview);
+        
+    </script>
+</body>
+</html>
